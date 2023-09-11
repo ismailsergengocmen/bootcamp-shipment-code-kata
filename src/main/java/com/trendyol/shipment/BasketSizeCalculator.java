@@ -28,7 +28,7 @@ public class BasketSizeCalculator {
     }
 
     private void fillProductSizeMap(List<Product> products){
-        products.forEach(product -> addItem(product));
+        products.forEach(this::addItem);
     }
 
     // Method to add an item of a specific size

@@ -7,7 +7,7 @@ public class Basket {
     private List<Product> products;
     private final BasketSizeCalculator basketSizeCalculator = new BasketSizeCalculator();
     public ShipmentSize getShipmentSize() {
-        return basketSizeCalculator.calculateShipmentSize(products);
+        return basketSizeCalculator.calculateShipmentSize(this.getProducts());
     }
 
     public List<Product> getProducts() {
