@@ -8,46 +8,31 @@ public class BasketSizeCalculator {
 
     public ShipmentSize calculateShipmentSize(List<Product> products) {
         fillProductSizeMap(products);
+
         int mostCommonItemSize = findMostCommonItemSize();
         int heaviestItemSize = findHeaviestItemSize();
 
-        if (mostCommonItemSize == -1){
-            return ShipmentSize.SMALL;
-        }
-        if (productSizeMap.get(mostCommonItemSize) >= BASKET_SHIPMENT_THRESHOLD){
-            if (mostCommonItemSize != 3) {
-                return convertPriorityToShipmentSize(mostCommonItemSize + 1);
-            }
-            else {
-                return convertPriorityToShipmentSize(mostCommonItemSize);
-            }
-        }
-        else {
-            return convertPriorityToShipmentSize(heaviestItemSize);
-        }
+        int commonItemCount = productSizeMap.get(mostCommonItemSize);
+
+        int shipmentSize = (commonItemCount >= BASKET_SHIPMENT_THRESHOLD && mostCommonItemSize != 3) ? mostCommonItemSize + 1 : heaviestItemSize;
+
+        return convertSizeToShipmentSizeEnum(shipmentSize);
     }
 
     private void fillProductSizeMap(List<Product> products){
-        products.forEach(this::addItem);
+        products.forEach(this::addItemToSizeMap);
     }
 
-    // Method to add an item of a specific size
-    private void addItem(Product product) {
-        int priorityOfItemSize = convertShipmentSizeToPriority(product);
-        if (productSizeMap.containsKey(priorityOfItemSize)) {
-            int count = productSizeMap.get(priorityOfItemSize);
-            productSizeMap.put(priorityOfItemSize, count + 1);
-        }
-        else {
-            productSizeMap.put(priorityOfItemSize, 1);
-        }
+    private void addItemToSizeMap(Product product) {
+        int priorityOfItemSize = convertShipmentSizeEnumToSize(product);
+        productSizeMap.compute(priorityOfItemSize, (key, value) -> (value == null) ? 1 : value + 1);
     }
 
-    private int convertShipmentSizeToPriority(Product product){
+    private int convertShipmentSizeEnumToSize(Product product){
         return product.getSize().ordinal();
     }
 
-    private ShipmentSize convertPriorityToShipmentSize(int ordinalValue){
+    private ShipmentSize convertSizeToShipmentSizeEnum(int ordinalValue){
         return ShipmentSize.values()[ordinalValue];
     }
 
