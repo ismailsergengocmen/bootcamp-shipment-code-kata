@@ -7,6 +7,9 @@ public class Basket {
     private List<Product> products;
     private final BasketSizeCalculator basketSizeCalculator = new BasketSizeCalculator();
     public ShipmentSize getShipmentSize() {
+        if (products.isEmpty()){
+            throw new IllegalArgumentException("The basket is empty");
+        }
         return basketSizeCalculator.calculateShipmentSize(this.getProducts());
     }
 

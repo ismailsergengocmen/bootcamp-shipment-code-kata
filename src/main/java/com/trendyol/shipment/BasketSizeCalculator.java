@@ -40,14 +40,14 @@ public class BasketSizeCalculator {
         return productSizeMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
-                .orElse(-1);
+                .get();
     }
 
     private int findHeaviestItemSize(){
         return productSizeMap.entrySet().stream()
                 .max(Map.Entry.comparingByKey())
                 .map(Map.Entry::getKey)
-                .orElse(-1);
+                .get();
     }
 
 }
