@@ -24,8 +24,8 @@ public class BasketSizeCalculator {
     }
 
     private void addItemToSizeMap(Product product) {
-        int priorityOfItemSize = convertShipmentSizeEnumToSize(product);
-        productSizeMap.compute(priorityOfItemSize, (key, value) -> (value == null) ? 1 : value + 1);
+        int itemSize = convertShipmentSizeEnumToSize(product);
+        productSizeMap.compute(itemSize, (key, value) -> (value == null) ? 1 : value + 1);
     }
 
     private int convertShipmentSizeEnumToSize(Product product){
