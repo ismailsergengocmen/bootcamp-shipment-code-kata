@@ -5,9 +5,9 @@ import java.util.List;
 public class Basket {
 
     private List<Product> products;
-
+    private final BasketSizeCalculator basketSizeCalculator = new BasketSizeCalculator();
     public ShipmentSize getShipmentSize() {
-        return null;
+        return basketSizeCalculator.calculateShipmentSize(products);
     }
 
     public List<Product> getProducts() {
